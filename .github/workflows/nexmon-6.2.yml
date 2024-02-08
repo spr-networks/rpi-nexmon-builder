@@ -1,0 +1,19 @@
+name: 6.2 Nexmon LKM CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-lkm:
+    name: Build LKM
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+        name: Build and push containers
+        run: |
+          docker -f Dockerfile-6.2 build -t 6.2

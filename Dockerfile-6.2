@@ -14,5 +14,7 @@ ENV KERNEL=kernel8
 # make config
 RUN make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig 
 
-# make Image, modules, dtbs.
-RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image modules dtbs
+# build headers
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- headers prepare
+# Build the broadcom modules
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- KBUILD_EXTMOD=drivers/net/wireless/broadcom/brcm80211/

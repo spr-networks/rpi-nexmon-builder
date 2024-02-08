@@ -9,7 +9,7 @@ index 0e996cf24..a0faad06d 100644
 -ccflags-y += \
 -	-I $(srctree)/$(src) \
 -	-I $(srctree)/$(src)/../include
-+ccflags-y += -I$(src) -I$(src)/include/
++ccflags-y += -I$(src) -I$(src)/include/ -DDEBUG=1
  
 -obj-$(CONFIG_BRCMFMAC) += brcmfmac.o
 +obj-$(CONFIG_BRCMFMAC) += brcmfmac.o 

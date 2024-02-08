@@ -1,0 +1,18 @@
+ 
+FROM ubuntu
+
+RUN apt-get update
+RUN apt-get -y install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-arm64
+
+WORKDIR /code
+RUN git clone --branch=rpi-6.2.y --depth=1 https://github.com/raspberrypi/linux
+
+WORKDIR /code/linux
+COPY nexmon.6.2.patch /code/
+RUN git apply /code/nexmon.6.2.patch
+ENV KERNEL=kernel8
+# make config
+RUN make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig 
+
+# make Image, modules, dtbs.
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image modules dtbs

@@ -17,4 +17,4 @@ jobs:
       -
         name: Build and push containers
         run: |
-          docker -f Dockerfile-6.2 build -t 6.2
+          docker -f Dockerfile-6.2 build . -t 6.2

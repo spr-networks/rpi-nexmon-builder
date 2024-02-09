@@ -1,5 +1,8 @@
 name: 6.2 Nexmon LKM CI
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:

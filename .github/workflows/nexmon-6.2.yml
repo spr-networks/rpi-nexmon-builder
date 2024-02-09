@@ -34,8 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          #asset_path: ./brcmfmac.ko
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: /tmp/test
           asset_name: brcmfmac.ko
           asset_content_type: application/octet-stream

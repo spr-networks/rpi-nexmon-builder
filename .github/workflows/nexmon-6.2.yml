@@ -22,7 +22,7 @@ jobs:
         run: |
           docker build -f Dockerfile-6.2 . -t 6.2
           docker create --name temp 6.2
-          docker cp temp:/code/linux/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
+          docker cp temp:/code/linux-raspi/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

@@ -1,7 +1,6 @@
 name: 6.2 Nexmon LKM CI
 
-permissions:
-  releases: write
+permissions: write-all
 
 on:
   push:

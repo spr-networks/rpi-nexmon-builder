@@ -2,7 +2,8 @@ name: 6.2 Nexmon LKM CI
 
 on:
   push:
-    branches: [main]
+    tags:
+      - '*'
 
 jobs:
   build-lkm:
@@ -17,9 +18,10 @@ jobs:
       -
         name: Build and push containers
         run: |
-          docker build -f Dockerfile-6.2 . -t 6.2
-          docker create --name temp 6.2
-          docker cp temp:/code/linux/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
+          touch /tmp/test
+          #docker build -f Dockerfile-6.2 . -t 6.2
+          #docker create --name temp 6.2
+          #docker cp temp:/code/linux/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
       - uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,6 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ./brcmfmac.ko
+          #asset_path: ./brcmfmac.ko
+          asset_path: /tmp/test
           asset_name: brcmfmac.ko
           asset_content_type: application/octet-stream

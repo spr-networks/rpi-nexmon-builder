@@ -16,5 +16,6 @@ RUN make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig
 
 # build 
 RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules
+
 # Build the nexmon module
 RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/brcmfmac

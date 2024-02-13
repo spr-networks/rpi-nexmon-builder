@@ -1,13 +1,13 @@
-FROM ubuntu:22.04
+FROM ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get -y install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-arm64
 
 WORKDIR /code
-RUN git clone --depth=1 -b ubuntu/lunar-updates https://git.launchpad.net/ubuntu/+source/linux-raspi
+RUN git clone --branch master-next --depth=1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-raspi/+git/lunar
 
-WORKDIR /code/linux-raspi
+WORKDIR /code/lunar
 COPY nexmon.6.2.patch /code/
 RUN git apply /code/nexmon.6.2.patch
 ENV KERNEL=kernel8

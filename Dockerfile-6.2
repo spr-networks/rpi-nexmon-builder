@@ -13,9 +13,12 @@ RUN git apply /code/nexmon.6.2.patch
 ENV KERNEL=kernel8
 # make config
 RUN make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig 
+# prepare
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- prepare
 
-# build 
-RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules
+# Copy modvers and module.lds
+COPY module.lds /code/lunar/scripts/
+COPY Module.symvers /code/lunar/
 
 # Build the nexmon module
 RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/brcmfmac

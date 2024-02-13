@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get -y install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-arm64
 
 WORKDIR /code
-RUN git clone --branch master-next --depth=1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-raspi/+git/lunar
+RUN git clone --branch Ubuntu-raspi-6.2.0-1018.20 --depth=1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-raspi/+git/lunar
 
 WORKDIR /code/lunar
 COPY nexmon.6.2.patch /code/

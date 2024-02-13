@@ -21,4 +21,4 @@ COPY module.lds /code/lunar/scripts/
 COPY Module.symvers /code/lunar/
 
 # Build the nexmon module
-RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/brcmfmac
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/

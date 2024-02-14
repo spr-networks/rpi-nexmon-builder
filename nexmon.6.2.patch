@@ -1,5 +1,5 @@
 diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/Makefile b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/Makefile
-index 0e996cf24..a366a1862 100644
+index 0e996cf24..a0faad06d 100644
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/Makefile
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/Makefile
 @@ -5,11 +5,9 @@
@@ -9,7 +9,7 @@ index 0e996cf24..a366a1862 100644
 -ccflags-y += \
 -	-I $(srctree)/$(src) \
 -	-I $(srctree)/$(src)/../include
-+ccflags-y += -I$(src) -I$(src)/include/ -DDEBUG=1
++ccflags-y += -I$(src) -I$(src)/include/
  
 -obj-$(CONFIG_BRCMFMAC) += brcmfmac.o
 +obj-$(CONFIG_BRCMFMAC) += brcmfmac.o 
@@ -4438,7 +4438,7 @@ index 000000000..824921191
 +
 +#endif				/* _BRCM_SOC_H */
 diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
-index 45fbcbdc7..7c8e08ee8 100644
+index 45fbcbdc7..b2d0f7570 100644
 --- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
 +++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/msgbuf.c
 @@ -71,7 +71,6 @@
@@ -4462,17 +4462,7 @@ index 45fbcbdc7..7c8e08ee8 100644
  
  	array[*idx].data_offset = data_offset;
  	array[*idx].physaddr = *physaddr;
-@@ -540,7 +536,8 @@ static int brcmf_msgbuf_hdrpull(struct brcmf_pub *drvr, bool do_fws,
- 	return -ENODEV;
- }
- 
--static void brcmf_msgbuf_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb)
-+static void brcmf_msgbuf_rxreorder(struct brcmf_if *ifp, struct sk_buff *skb,
-+				   bool inirq)
- {
- }
- 
-@@ -810,12 +807,8 @@ static int brcmf_msgbuf_tx_queue_data(struct brcmf_pub *drvr, int ifidx,
+@@ -810,12 +806,8 @@ static int brcmf_msgbuf_tx_queue_data(struct brcmf_pub *drvr, int ifidx,
  	flowid = brcmf_flowring_lookup(flow, eh->h_dest, skb->priority, ifidx);
  	if (flowid == BRCMF_FLOWRING_INVALID_ID) {
  		flowid = brcmf_msgbuf_flowring_create(msgbuf, ifidx, skb);
@@ -4486,16 +4476,7 @@ index 45fbcbdc7..7c8e08ee8 100644
  	}
  	queue_count = brcmf_flowring_enqueue(flow, flowid, skb);
  	force = ((queue_count % BRCMF_MSGBUF_TRICKLE_TXWORKER_THRS) == 0);
-@@ -1198,7 +1191,7 @@ brcmf_msgbuf_process_rx_complete(struct brcmf_msgbuf *msgbuf, void *buf)
- 	}
- 
- 	skb->protocol = eth_type_trans(skb, ifp->ndev);
--	brcmf_netif_rx(ifp, skb);
-+	brcmf_netif_rx(ifp, skb, false);
- }
- 
- static void brcmf_msgbuf_process_gen_status(struct brcmf_msgbuf *msgbuf,
-@@ -1403,27 +1396,9 @@ void brcmf_msgbuf_delete_flowring(struct brcmf_pub *drvr, u16 flowid)
+@@ -1403,27 +1395,9 @@ void brcmf_msgbuf_delete_flowring(struct brcmf_pub *drvr, u16 flowid)
  	struct brcmf_msgbuf *msgbuf = (struct brcmf_msgbuf *)drvr->proto->pd;
  	struct msgbuf_tx_flowring_delete_req *delete;
  	struct brcmf_commonring *commonring;

@@ -12,12 +12,12 @@ COPY nexmon.6.2.patch /code/
 RUN git apply /code/nexmon.6.2.patch
 ENV KERNEL=kernel8
 # make config
-RUN make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- bcm2711_defconfig 
+RUN make mrproper
+COPY ubuntu-config .config
 # prepare
-RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- prepare
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules_prepare
 
 # Copy modvers and module.lds
-COPY module.lds /code/lunar/scripts/
 COPY Module.symvers /code/lunar/
 
 # Build the nexmon module

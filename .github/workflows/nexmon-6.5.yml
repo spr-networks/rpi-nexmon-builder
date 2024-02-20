@@ -22,8 +22,8 @@ jobs:
         run: |
           docker build -f Dockerfile-6.5 . -t 6.5
           docker create --name temp 6.5
-          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
-          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmutil/brcmutil.ko brcmutil.ko
+          docker cp temp:/code/mantic/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
+          docker cp temp:/code/mantic/drivers/net/wireless/broadcom/brcm80211/brcmutil/brcmutil.ko brcmutil.ko
 
       - name: Release
         uses: softprops/action-gh-release@v1

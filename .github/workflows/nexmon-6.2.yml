@@ -5,7 +5,7 @@ permissions: write-all
 on:
   push:
     tags:
-      - 'vUbuntu-raspi-6.2.*'
+      - 'v6.2.0-1010-raspi'
 
 jobs:
   build-lkm:

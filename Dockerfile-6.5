@@ -21,4 +21,4 @@ RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules_prepare
 COPY symvers/Module-6.5.0-1010.13.symvers /code/mantic/Module.symvers
 
 # Build the nexmon module
-#RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/
+RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/

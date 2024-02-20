@@ -5,8 +5,7 @@ permissions: write-all
 on:
   push:
     tags:
-      - 'v6.2.0-1010-raspi'
-
+      - 'v6.2.0-*-raspi'
 jobs:
   build-lkm:
     name: Build LKM

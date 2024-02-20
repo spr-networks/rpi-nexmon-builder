@@ -1,0 +1,33 @@
+name: 6.5 Nexmon Mantic LKM CI
+
+permissions: write-all
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-lkm:
+    name: Build LKM
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      -
+        name: Build
+        run: |
+          docker build -f Dockerfile-6.5 . -t 6.5
+          docker create --name temp 6.5
+          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
+          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmutil/brcmutil.ko brcmutil.ko
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./brcmfmac.ko
+            ./brcmutil.ko

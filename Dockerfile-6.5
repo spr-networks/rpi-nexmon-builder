@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get -y install git bc bison flex libssl-dev make libc6-dev libncurses5-dev crossbuild-essential-arm64
 
 WORKDIR /code
-RUN git clone --branch Ubuntu-raspi-6.5.0-1011.14 --depth=1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-raspi/+git/mantic
+RUN git clone --branch Ubuntu-raspi-6.5.0-1013.16 --depth=1 git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux-raspi/+git/mantic
 
 WORKDIR /code/mantic
 COPY patch/nexmon.6.5.patch /code/
@@ -13,12 +13,12 @@ RUN git apply /code/nexmon.6.5.patch
 ENV KERNEL=kernel8
 # make config
 RUN make mrproper
-COPY configs/ubuntu-6.5.0-1011.14-config .config
+COPY configs/ubuntu-6.5.0-1013.16-config .config
 # prepare
 RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- modules_prepare
 
 # Copy modvers and module.lds
-COPY symvers/Module-6.5.0-1011.14.symvers /code/mantic/Module.symvers
+COPY symvers/Module-6.5.0-1013.16.symvers /code/mantic/Module.symvers
 
 # Build the nexmon module
 RUN make -j `nproc` ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- M=drivers/net/wireless/broadcom/brcm80211/

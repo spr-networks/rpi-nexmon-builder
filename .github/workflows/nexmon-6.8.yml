@@ -1,0 +1,32 @@
+name: 6.8 Nexmon lunar LKM CI
+
+permissions: write-all
+
+on:
+  push:
+    tags:
+      - 'v6.8.0-*-raspi'
+
+jobs:
+  build-lkm:
+    name: Build LKM
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      -
+        name: Build
+        run: |
+          docker build -f Dockerfile-6.8 . -t 6.8
+          docker create --name temp 6.8
+          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko ./brcmfmac.ko
+          docker cp temp:/code/lunar/drivers/net/wireless/broadcom/brcm80211/brcmutil/brcmutil.ko brcmutil.ko
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./brcmfmac.ko
+            ./brcmutil.ko

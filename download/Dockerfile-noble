@@ -1,0 +1,7 @@
+FROM ubuntu:24.04
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --fix-missing && apt-get install -y xz-utils wget fdisk
+COPY download/noble.sh /noble.sh
+RUN mkdir /data/
+RUN /noble.sh
+COPY scripts /scripts/

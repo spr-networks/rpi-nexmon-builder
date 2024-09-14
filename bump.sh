@@ -1,5 +1,5 @@
 #!/bin/bash
-docker build -f download/Dockerfile-lunar . -t updater
+docker build -f download/Dockerfile-noble . -t updater
 docker run --name updated --privileged -it updater /scripts/pi-cross-update.sh
 docker cp updated:/VERSION /tmp/
 VERSION=$(cat /tmp/VERSION)
